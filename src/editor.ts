@@ -95,7 +95,7 @@ export class HaGaugeCardEditor extends LitElement implements LovelaceCardEditor 
                   label="ab Wert"
                   type="number"
                   .value=${String(seg.from)}
-                  @input=${(e: Event) => this._updateSegment(index, 'from', (e.target as HTMLInputElement).value)}
+                  @change=${(e: Event) => this._updateSegment(index, 'from', (e.target as HTMLInputElement).value)}
                 ></ha-textfield>
                 <input
                   class="color-input"
@@ -106,7 +106,7 @@ export class HaGaugeCardEditor extends LitElement implements LovelaceCardEditor 
                 <ha-textfield
                   label="Farbe (CSS)"
                   .value=${seg.color}
-                  @input=${(e: Event) => this._updateSegment(index, 'color', (e.target as HTMLInputElement).value)}
+                  @change=${(e: Event) => this._updateSegment(index, 'color', (e.target as HTMLInputElement).value)}
                 ></ha-textfield>
                 <ha-icon-button
                   .path=${'M19,13H5V11H19V13Z'}

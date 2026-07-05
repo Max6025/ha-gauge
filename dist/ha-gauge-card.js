@@ -21,7 +21,7 @@
                   label="ab Wert"
                   type="number"
                   .value=${String(t.from)}
-                  @input=${n=>this._updateSegment(i,"from",n.target.value)}
+                  @change=${n=>this._updateSegment(i,"from",n.target.value)}
                 ></ha-textfield>
                 <input
                   class="color-input"
@@ -32,7 +32,7 @@
                 <ha-textfield
                   label="Farbe (CSS)"
                   .value=${t.color}
-                  @input=${n=>this._updateSegment(i,"color",n.target.value)}
+                  @change=${n=>this._updateSegment(i,"color",n.target.value)}
                 ></ha-textfield>
                 <ha-icon-button
                   .path=${"M19,13H5V11H19V13Z"}
