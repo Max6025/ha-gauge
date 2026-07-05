@@ -71,7 +71,8 @@ export class HaGaugeCard extends LitElement implements LovelaceCard {
   }
 
   public getCardSize(): number {
-    return 4;
+    // Roughly matches the SVG's 200:170 aspect ratio at a typical masonry column width.
+    return 5;
   }
 
   protected shouldUpdate(changed: PropertyValues): boolean {
@@ -342,11 +343,9 @@ export class HaGaugeCard extends LitElement implements LovelaceCard {
       display: block;
     }
     ha-card {
-      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
       transition: background-color 180ms ease-in-out;
     }
     .card-content {
@@ -356,6 +355,7 @@ export class HaGaugeCard extends LitElement implements LovelaceCard {
     svg {
       display: block;
       width: 100%;
+      aspect-ratio: 200 / 170;
       overflow: visible;
     }
     .not-found {

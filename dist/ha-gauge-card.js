@@ -17,28 +17,32 @@
           </div>
           ${this._segments.map((t,i)=>x`
               <div class="segment-row">
-                <ha-textfield
-                  label="ab Wert"
-                  type="number"
-                  .value=${String(t.from)}
-                  @change=${n=>this._updateSegment(i,"from",n.target.value)}
-                ></ha-textfield>
+                <label class="field">
+                  <span class="field-label">ab Wert</span>
+                  <input
+                    type="number"
+                    step="any"
+                    .value=${String(t.from)}
+                    @change=${n=>this._updateSegment(i,"from",n.target.value)}
+                  />
+                </label>
                 <input
                   class="color-input"
                   type="color"
                   .value=${this._toHex(t.color)}
                   @input=${n=>this._updateSegment(i,"color",n.target.value)}
                 />
-                <ha-textfield
-                  label="Farbe (CSS)"
-                  .value=${t.color}
-                  @change=${n=>this._updateSegment(i,"color",n.target.value)}
-                ></ha-textfield>
-                <ha-icon-button
-                  .path=${"M19,13H5V11H19V13Z"}
-                  label="Entfernen"
-                  @click=${()=>this._removeSegment(i)}
-                ></ha-icon-button>
+                <label class="field">
+                  <span class="field-label">Farbe (CSS)</span>
+                  <input
+                    type="text"
+                    .value=${t.color}
+                    @change=${n=>this._updateSegment(i,"color",n.target.value)}
+                  />
+                </label>
+                <button class="remove-button" type="button" title="Entfernen" @click=${()=>this._removeSegment(i)}>
+                  ✕
+                </button>
               </div>
             `)}
           ${this._segments.length===0?x`<div class="hint">Keine Segmente – der Zeiger nutzt eine Standardfarbe.</div>`:u}
@@ -68,6 +72,28 @@
       gap: 8px;
       margin-bottom: 8px;
     }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .field-label {
+      font-size: 11px;
+      color: var(--secondary-text-color, #9e9e9e);
+    }
+    .field input {
+      font: inherit;
+      color: var(--primary-text-color, #212121);
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--divider-color, #767676);
+      padding: 6px 0;
+      outline: none;
+      min-width: 0;
+    }
+    .field input:focus {
+      border-bottom: 2px solid var(--primary-color, #03a9f4);
+    }
     .color-input {
       width: 36px;
       height: 36px;
@@ -75,11 +101,27 @@
       border: none;
       background: none;
     }
+    .remove-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: none;
+      color: var(--secondary-text-color, #9e9e9e);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .remove-button:hover {
+      background: var(--secondary-background-color, rgba(127, 127, 127, 0.2));
+    }
     .hint {
       color: var(--secondary-text-color, #9e9e9e);
       font-size: 12px;
     }
-  `,$([j({attribute:!1})],k.prototype,"hass",2),$([J()],k.prototype,"_config",2),k=$([ce("ha-gauge-card-editor")],k)});Ne();Pe();var vt,yt;(function(r){r.language="language",r.system="system",r.comma_decimal="comma_decimal",r.decimal_comma="decimal_comma",r.space_comma="space_comma",r.none="none"})(vt||(vt={})),function(r){r.language="language",r.system="system",r.am_pm="12",r.twenty_four="24"}(yt||(yt={}));function Ht(r){return r.substr(0,r.indexOf("."))}var Ut=["closed","locked","off"];var de=function(r,e,t,i){i=i||{},t=t==null?{}:t;var n=new Event(e,{bubbles:i.bubbles===void 0||i.bubbles,cancelable:!!i.cancelable,composed:i.composed===void 0||i.composed});return n.detail=t,r.dispatchEvent(n),n};var ue=function(r){de(window,"haptic",r)},Ft=function(r,e,t){t===void 0&&(t=!1),t?history.replaceState(null,"",e):history.pushState(null,"",e),de(window,"location-changed",{replace:t})},Lt=function(r,e,t){t===void 0&&(t=!0);var i,n=Ht(e),o=n==="group"?"homeassistant":n;switch(n){case"lock":i=t?"unlock":"lock";break;case"cover":i=t?"open_cover":"close_cover";break;default:i=t?"turn_on":"turn_off"}return r.callService(o,i,{entity_id:e})},Vt=function(r,e){var t=Ut.includes(r.states[e].state);return Lt(r,e,t)},jt=function(r,e,t,i){if(i||(i={action:"more-info"}),!i.confirmation||i.confirmation.exemptions&&i.confirmation.exemptions.some(function(o){return o.user===e.user.id})||(ue("warning"),confirm(i.confirmation.text||"Are you sure you want to "+i.action+"?")))switch(i.action){case"more-info":(t.entity||t.camera_image)&&de(r,"hass-more-info",{entityId:t.entity?t.entity:t.camera_image});break;case"navigate":i.navigation_path&&Ft(0,i.navigation_path);break;case"url":i.url_path&&window.open(i.url_path);break;case"toggle":t.entity&&(Vt(e,t.entity),ue("success"));break;case"call-service":if(!i.service)return void ue("failure");var n=i.service.split(".",2);e.callService(n[0],n[1],i.service_data,i.target),ue("success");break;case"fire-dom-event":de(r,"ll-custom",i)}},Q=function(r,e,t,i){var n;i==="double_tap"&&t.double_tap_action?n=t.double_tap_action:i==="hold"&&t.hold_action?n=t.hold_action:i==="tap"&&t.tap_action&&(n=t.tap_action),jt(r,e,t,n)};function E(r){return r!==void 0&&r.action!=="none"}Ie();function Re(r,e,t){return Math.min(t,Math.max(e,r))}function xt(r,e,t,i){let n=i*Math.PI/180;return{x:r+t*Math.cos(n),y:e+t*Math.sin(n)}}function ee(r,e,t,i,n){let o=xt(r,e,t,i),a=xt(r,e,t,n),c=n-i>180?1:0;return`M ${o.x} ${o.y} A ${t} ${t} 0 ${c} 1 ${a.x} ${a.y}`}function He(r){return 270-r/2}function te(r,e,t,i){let n=Re((r-e)/(t-e||1),0,1);return He(i)+n*i}function At(r,e,t){return Re((r-e)/(t-e||1),0,1)*100}function St(r,e){var n,o;let t=[...e].sort((a,c)=>a.from-c.from),i=(o=(n=t[0])==null?void 0:n.color)!=null?o:"#43a047";for(let a of t)r>=a.from&&(i=a.color);return i}function zt(r){return 1-Math.pow(1-r,3)}function Et(r,e,t,i){if(t<=0||r===e)return i(e),()=>{};let n=!1,o=performance.now(),a=c=>{if(n)return;let s=c-o,l=Re(s/t,0,1),d=zt(l);i(r+(e-r)*d),l<1&&requestAnimationFrame(a)};return requestAnimationFrame(a),()=>{n=!0}}Ue();console.info(`%c HA-GAUGE-CARD %c v${bt} `,"color: #fff; background: #039be5; font-weight: 700; border-radius: 3px 0 0 3px; padding: 2px 0 2px 6px;","color: #039be5; background: #e1f5fe; font-weight: 700; border-radius: 0 3px 3px 0; padding: 2px 6px 2px 0;");var g=100,_=110,C=78,T=16,N=class extends b{constructor(){super(...arguments);this._displayValue=0;this._holdTriggered=!1;this._uid=Math.random().toString(36).slice(2,8);this._onPointerDown=()=>{this._holdTriggered=!1,E(this._config.hold_action)&&(this._holdTimer=window.setTimeout(()=>{this._holdTriggered=!0,Q(this,this.hass,this._config,"hold")},500))};this._onPointerUp=()=>{this._holdTimer&&(window.clearTimeout(this._holdTimer),this._holdTimer=void 0),!(this._holdTriggered||!E(this._config.tap_action))&&(E(this._config.double_tap_action)?this._tapTimer=window.setTimeout(()=>{Q(this,this.hass,this._config,"tap")},250):Q(this,this.hass,this._config,"tap"))};this._onPointerCancel=()=>{this._holdTimer&&(window.clearTimeout(this._holdTimer),this._holdTimer=void 0)};this._onDblClick=()=>{E(this._config.double_tap_action)&&(this._tapTimer&&(window.clearTimeout(this._tapTimer),this._tapTimer=void 0),Q(this,this.hass,this._config,"double_tap"))}}static async getConfigElement(){return await Promise.resolve().then(()=>(Ue(),kt)),document.createElement("ha-gauge-card-editor")}static getStubConfig(){return{entity:"",...A}}setConfig(t){var i,n;if(!t.entity)throw new Error("Bitte eine Entity ausw\xE4hlen (entity: sensor.xyz)");this._config={...A,...t,min:Number((i=t.min)!=null?i:A.min),max:Number((n=t.max)!=null?n:A.max),segments:t.segments&&t.segments.length>0?t.segments:A.segments}}getCardSize(){return 4}shouldUpdate(t){if(!this._config)return!1;if(t.has("_config")||t.has("_displayValue"))return!0;if(t.has("hass")){let i=t.get("hass");return i?i.states[this._config.entity]!==this.hass.states[this._config.entity]:!0}return!0}updated(t){(t.has("hass")||t.has("_config"))&&this._syncValue()}_syncValue(){var o;let t=this._targetValue;if(this._lastValue===void 0){this._lastValue=t,this._displayValue=t;return}if(t===this._lastValue)return;let i=this._displayValue;this._lastValue=t,(o=this._cancelAnimation)==null||o.call(this);let n=this._config.animation?this._config.animation_duration:0;this._cancelAnimation=Et(i,t,n,a=>{this._displayValue=a})}get _stateObj(){var t;return(t=this.hass)==null?void 0:t.states[this._config.entity]}get _targetValue(){let t=this._stateObj;if(!t)return this._config.min;let i=Number(t.state);return Number.isNaN(i)?this._config.min:i}get _unit(){var t,i;return this._config.unit!==void 0?this._config.unit:(i=(t=this._stateObj)==null?void 0:t.attributes.unit_of_measurement)!=null?i:""}get _name(){var t,i,n;return(n=(i=this._config.name)!=null?i:(t=this._stateObj)==null?void 0:t.attributes.friendly_name)!=null?n:this._config.entity}render(){if(!this._config||!this.hass)return x``;if(!this._stateObj)return x`
+  `,$([j({attribute:!1})],k.prototype,"hass",2),$([J()],k.prototype,"_config",2),k=$([ce("ha-gauge-card-editor")],k)});Ne();Pe();var vt,yt;(function(r){r.language="language",r.system="system",r.comma_decimal="comma_decimal",r.decimal_comma="decimal_comma",r.space_comma="space_comma",r.none="none"})(vt||(vt={})),function(r){r.language="language",r.system="system",r.am_pm="12",r.twenty_four="24"}(yt||(yt={}));function Ht(r){return r.substr(0,r.indexOf("."))}var Ut=["closed","locked","off"];var de=function(r,e,t,i){i=i||{},t=t==null?{}:t;var n=new Event(e,{bubbles:i.bubbles===void 0||i.bubbles,cancelable:!!i.cancelable,composed:i.composed===void 0||i.composed});return n.detail=t,r.dispatchEvent(n),n};var ue=function(r){de(window,"haptic",r)},Ft=function(r,e,t){t===void 0&&(t=!1),t?history.replaceState(null,"",e):history.pushState(null,"",e),de(window,"location-changed",{replace:t})},Lt=function(r,e,t){t===void 0&&(t=!0);var i,n=Ht(e),o=n==="group"?"homeassistant":n;switch(n){case"lock":i=t?"unlock":"lock";break;case"cover":i=t?"open_cover":"close_cover";break;default:i=t?"turn_on":"turn_off"}return r.callService(o,i,{entity_id:e})},Vt=function(r,e){var t=Ut.includes(r.states[e].state);return Lt(r,e,t)},jt=function(r,e,t,i){if(i||(i={action:"more-info"}),!i.confirmation||i.confirmation.exemptions&&i.confirmation.exemptions.some(function(o){return o.user===e.user.id})||(ue("warning"),confirm(i.confirmation.text||"Are you sure you want to "+i.action+"?")))switch(i.action){case"more-info":(t.entity||t.camera_image)&&de(r,"hass-more-info",{entityId:t.entity?t.entity:t.camera_image});break;case"navigate":i.navigation_path&&Ft(0,i.navigation_path);break;case"url":i.url_path&&window.open(i.url_path);break;case"toggle":t.entity&&(Vt(e,t.entity),ue("success"));break;case"call-service":if(!i.service)return void ue("failure");var n=i.service.split(".",2);e.callService(n[0],n[1],i.service_data,i.target),ue("success");break;case"fire-dom-event":de(r,"ll-custom",i)}},Q=function(r,e,t,i){var n;i==="double_tap"&&t.double_tap_action?n=t.double_tap_action:i==="hold"&&t.hold_action?n=t.hold_action:i==="tap"&&t.tap_action&&(n=t.tap_action),jt(r,e,t,n)};function E(r){return r!==void 0&&r.action!=="none"}Ie();function Re(r,e,t){return Math.min(t,Math.max(e,r))}function xt(r,e,t,i){let n=i*Math.PI/180;return{x:r+t*Math.cos(n),y:e+t*Math.sin(n)}}function ee(r,e,t,i,n){let o=xt(r,e,t,i),a=xt(r,e,t,n),c=n-i>180?1:0;return`M ${o.x} ${o.y} A ${t} ${t} 0 ${c} 1 ${a.x} ${a.y}`}function He(r){return 270-r/2}function te(r,e,t,i){let n=Re((r-e)/(t-e||1),0,1);return He(i)+n*i}function At(r,e,t){return Re((r-e)/(t-e||1),0,1)*100}function St(r,e){var n,o;let t=[...e].sort((a,c)=>a.from-c.from),i=(o=(n=t[0])==null?void 0:n.color)!=null?o:"#43a047";for(let a of t)r>=a.from&&(i=a.color);return i}function zt(r){return 1-Math.pow(1-r,3)}function Et(r,e,t,i){if(t<=0||r===e)return i(e),()=>{};let n=!1,o=performance.now(),a=c=>{if(n)return;let s=c-o,l=Re(s/t,0,1),d=zt(l);i(r+(e-r)*d),l<1&&requestAnimationFrame(a)};return requestAnimationFrame(a),()=>{n=!0}}Ue();console.info(`%c HA-GAUGE-CARD %c v${bt} `,"color: #fff; background: #039be5; font-weight: 700; border-radius: 3px 0 0 3px; padding: 2px 0 2px 6px;","color: #039be5; background: #e1f5fe; font-weight: 700; border-radius: 0 3px 3px 0; padding: 2px 6px 2px 0;");var g=100,_=110,C=78,T=16,N=class extends b{constructor(){super(...arguments);this._displayValue=0;this._holdTriggered=!1;this._uid=Math.random().toString(36).slice(2,8);this._onPointerDown=()=>{this._holdTriggered=!1,E(this._config.hold_action)&&(this._holdTimer=window.setTimeout(()=>{this._holdTriggered=!0,Q(this,this.hass,this._config,"hold")},500))};this._onPointerUp=()=>{this._holdTimer&&(window.clearTimeout(this._holdTimer),this._holdTimer=void 0),!(this._holdTriggered||!E(this._config.tap_action))&&(E(this._config.double_tap_action)?this._tapTimer=window.setTimeout(()=>{Q(this,this.hass,this._config,"tap")},250):Q(this,this.hass,this._config,"tap"))};this._onPointerCancel=()=>{this._holdTimer&&(window.clearTimeout(this._holdTimer),this._holdTimer=void 0)};this._onDblClick=()=>{E(this._config.double_tap_action)&&(this._tapTimer&&(window.clearTimeout(this._tapTimer),this._tapTimer=void 0),Q(this,this.hass,this._config,"double_tap"))}}static async getConfigElement(){return await Promise.resolve().then(()=>(Ue(),kt)),document.createElement("ha-gauge-card-editor")}static getStubConfig(){return{entity:"",...A}}setConfig(t){var i,n;if(!t.entity)throw new Error("Bitte eine Entity ausw\xE4hlen (entity: sensor.xyz)");this._config={...A,...t,min:Number((i=t.min)!=null?i:A.min),max:Number((n=t.max)!=null?n:A.max),segments:t.segments&&t.segments.length>0?t.segments:A.segments}}getCardSize(){return 5}shouldUpdate(t){if(!this._config)return!1;if(t.has("_config")||t.has("_displayValue"))return!0;if(t.has("hass")){let i=t.get("hass");return i?i.states[this._config.entity]!==this.hass.states[this._config.entity]:!0}return!0}updated(t){(t.has("hass")||t.has("_config"))&&this._syncValue()}_syncValue(){var o;let t=this._targetValue;if(this._lastValue===void 0){this._lastValue=t,this._displayValue=t;return}if(t===this._lastValue)return;let i=this._displayValue;this._lastValue=t,(o=this._cancelAnimation)==null||o.call(this);let n=this._config.animation?this._config.animation_duration:0;this._cancelAnimation=Et(i,t,n,a=>{this._displayValue=a})}get _stateObj(){var t;return(t=this.hass)==null?void 0:t.states[this._config.entity]}get _targetValue(){let t=this._stateObj;if(!t)return this._config.min;let i=Number(t.state);return Number.isNaN(i)?this._config.min:i}get _unit(){var t,i;return this._config.unit!==void 0?this._config.unit:(i=(t=this._stateObj)==null?void 0:t.attributes.unit_of_measurement)!=null?i:""}get _name(){var t,i,n;return(n=(i=this._config.name)!=null?i:(t=this._stateObj)==null?void 0:t.attributes.friendly_name)!=null?n:this._config.entity}render(){if(!this._config||!this.hass)return x``;if(!this._stateObj)return x`
         <ha-card>
           <div class="not-found">Entity nicht gefunden: ${this._config.entity}</div>
         </ha-card>
@@ -182,11 +224,9 @@
       display: block;
     }
     ha-card {
-      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
       transition: background-color 180ms ease-in-out;
     }
     .card-content {
@@ -196,6 +236,7 @@
     svg {
       display: block;
       width: 100%;
+      aspect-ratio: 200 / 170;
       overflow: visible;
     }
     .not-found {

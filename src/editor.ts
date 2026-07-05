@@ -91,28 +91,32 @@ export class HaGaugeCardEditor extends LitElement implements LovelaceCardEditor 
           ${this._segments.map(
             (seg, index) => html`
               <div class="segment-row">
-                <ha-textfield
-                  label="ab Wert"
-                  type="number"
-                  .value=${String(seg.from)}
-                  @change=${(e: Event) => this._updateSegment(index, 'from', (e.target as HTMLInputElement).value)}
-                ></ha-textfield>
+                <label class="field">
+                  <span class="field-label">ab Wert</span>
+                  <input
+                    type="number"
+                    step="any"
+                    .value=${String(seg.from)}
+                    @change=${(e: Event) => this._updateSegment(index, 'from', (e.target as HTMLInputElement).value)}
+                  />
+                </label>
                 <input
                   class="color-input"
                   type="color"
                   .value=${this._toHex(seg.color)}
                   @input=${(e: Event) => this._updateSegment(index, 'color', (e.target as HTMLInputElement).value)}
                 />
-                <ha-textfield
-                  label="Farbe (CSS)"
-                  .value=${seg.color}
-                  @change=${(e: Event) => this._updateSegment(index, 'color', (e.target as HTMLInputElement).value)}
-                ></ha-textfield>
-                <ha-icon-button
-                  .path=${'M19,13H5V11H19V13Z'}
-                  label="Entfernen"
-                  @click=${() => this._removeSegment(index)}
-                ></ha-icon-button>
+                <label class="field">
+                  <span class="field-label">Farbe (CSS)</span>
+                  <input
+                    type="text"
+                    .value=${seg.color}
+                    @change=${(e: Event) => this._updateSegment(index, 'color', (e.target as HTMLInputElement).value)}
+                  />
+                </label>
+                <button class="remove-button" type="button" title="Entfernen" @click=${() => this._removeSegment(index)}>
+                  ✕
+                </button>
               </div>
             `
           )}
@@ -195,12 +199,50 @@ export class HaGaugeCardEditor extends LitElement implements LovelaceCardEditor 
       gap: 8px;
       margin-bottom: 8px;
     }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .field-label {
+      font-size: 11px;
+      color: var(--secondary-text-color, #9e9e9e);
+    }
+    .field input {
+      font: inherit;
+      color: var(--primary-text-color, #212121);
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--divider-color, #767676);
+      padding: 6px 0;
+      outline: none;
+      min-width: 0;
+    }
+    .field input:focus {
+      border-bottom: 2px solid var(--primary-color, #03a9f4);
+    }
     .color-input {
       width: 36px;
       height: 36px;
       padding: 0;
       border: none;
       background: none;
+    }
+    .remove-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: none;
+      color: var(--secondary-text-color, #9e9e9e);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .remove-button:hover {
+      background: var(--secondary-background-color, rgba(127, 127, 127, 0.2));
     }
     .hint {
       color: var(--secondary-text-color, #9e9e9e);
