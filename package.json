@@ -1,0 +1,20 @@
+{
+  "name": "ha-gauge-card",
+  "version": "1.0.0",
+  "description": "A modern, highly customizable gauge card for Home Assistant Lovelace dashboards.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js --minify",
+    "watch": "node build.js --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "custom-card-helpers": "^1.9.0",
+    "lit": "^2.8.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.12",
+    "typescript": "^5.4.5"
+  }
+}
